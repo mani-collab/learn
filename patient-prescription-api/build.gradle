@@ -1,0 +1,50 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.5.BUILD-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id "org.asciidoctor.convert" version "1.5.9.2"
+}
+
+group = 'com.springtech'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE' 
+	testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.1.RELEASE'
+	testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.7'
+}
+ext { 
+	snippetsDir = file('build/generated-snippets')
+}
+
+test { 
+    useJUnitPlatform()
+	outputs.dir snippetsDir
+}
+
+asciidoctor { 
+    sourceDir 'src/main/asciidoc'
+    attributes \
+      'snippets': file('build/generated-snippets')
+}

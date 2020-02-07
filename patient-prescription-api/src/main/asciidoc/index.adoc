@@ -1,0 +1,9 @@
+= Patient Prescription API Specification
+
+Patient Prescription API service running at http://localhost:8080:
+
+include::{snippets}/add-patient-test/auto-section.adoc[]
+
+include::{snippets}/get-patient-test/auto-section.adoc[]
+
+This is the end of Patient Prescription API documentation.
